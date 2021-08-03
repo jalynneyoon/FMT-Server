@@ -10,7 +10,6 @@ public func configure(_ app: Application) throws {
     app.databases.use(
         .postgres(
         hostname: "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? PostgresConfiguration.ianaPortNumber,
         username: "johyeonyoon",
         password: "",
         database: "five_mins_tracker_database"
