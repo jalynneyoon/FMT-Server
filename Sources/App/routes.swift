@@ -7,9 +7,9 @@ func routes(_ app: Application) throws {
         User.query(on: req.db).all()
     }
     
-    app.post("user") { req -> EventLoopFuture<User> in
-        let user = try req.content.decode(User.self)
-        return user.create(on: req.db).map { user }
-    }
+//    app.post("user") { req -> EventLoopFuture<User> in
+//        let user = try req.content.decode(User.self)
+//        return user.create(on: req.db).map { user }
+//    }
 
 }
