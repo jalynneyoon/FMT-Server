@@ -11,5 +11,7 @@ func routes(_ app: Application) throws {
 //        let user = try req.content.decode(User.self)
 //        return user.create(on: req.db).map { user }
 //    }
+    
+//    try app.register(collection: UserController)
 
 }
