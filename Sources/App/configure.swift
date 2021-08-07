@@ -24,9 +24,7 @@ public func configure(_ app: Application) throws {
     
     
     if let databaseURL = Environment.get("DATABASE_URL") {
-        app.databases.use(try .postgres(
-            url: databaseURL
-        ), as: .psql)
+        app.databases.use(try .postgres(url: databaseURL), as: .psql)
     } else {
 //        throw Abort(.internalServerError)
         return
