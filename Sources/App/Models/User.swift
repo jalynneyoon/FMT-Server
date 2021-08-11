@@ -20,12 +20,17 @@ final class User: Model, Content {
     @Field(key: "login")
     var login: Bool
     
+    @Children(for: \.$user)
+        var habits: [Habit]
+    
+    
     init() { }
 
-    init(id: UUID? = nil, nickname: String, login: Bool) {
+    init(id: UUID? = nil, nickname: String, login: Bool, habits : [Habit]) {
         self.id = id
         self.nickname = nickname
         self.login = login
+        self.habits = habits
         
     }
 }

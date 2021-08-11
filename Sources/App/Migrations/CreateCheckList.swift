@@ -12,7 +12,7 @@ struct CreateCheckList: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         return database.schema("checklists")
             .id()
-            .field("checktlist_name", .string, .required)
+            .field("checklist_name", .string, .required)
             .field("is_checked", .bool, .required)
             .field("habit_id", .uuid, .required, .references("habits", "id"))
 

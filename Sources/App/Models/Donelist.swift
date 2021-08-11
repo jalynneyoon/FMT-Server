@@ -20,8 +20,8 @@ final class Donelist: Model, Content {
     @Field(key: "short_description")
     var short_description: String
     
-    @Field(key: "habit_id")
-    var habit_id: UUID
+    @Parent(key: "habit_id")
+    var doneHabits: Habit
     
     init() { }
 
@@ -29,7 +29,7 @@ final class Donelist: Model, Content {
         self.id = id
         self.done_date = done_date
         self.short_description = short_description
-        self.habit_id = habit_id
+        self.$doneHabits.id = habit_id
         
     }
 }

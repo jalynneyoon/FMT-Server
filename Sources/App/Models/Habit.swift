@@ -23,8 +23,15 @@ final class Habit: Model, Content {
     @Field(key: "public")
     var makepublic: Bool
     
-    @Field(key: "user_id")
-    var user_id: UUID
+    @Parent(key : "user_id")
+    var user : User
+    
+    @Children(for: \.$checkHabits)
+    var checklist: [Checklist]
+    
+    @Children(for: \.$doneHabits)
+    var donelist : [Donelist]
+    
     
     init() { }
 
@@ -33,7 +40,6 @@ final class Habit: Model, Content {
         self.habit_name = habit_name
         self.alarm_time = alarm_time
         self.makepublic = makepublic
-        self.user_id = user_id
-        
+        self.$user.id = user_id
     }
 }

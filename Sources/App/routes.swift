@@ -7,10 +7,9 @@ func routes(_ app: Application) throws {
             return "Hello, world!"
         }
     
-//    app.get("user") {req in
-//        User.query(on: req.db).all()
-
-    
     try app.register(collection: UserController())
+    try app.register(collection: HabitController())
+    try app.register(collection: ChecklistController())
+
 
 }

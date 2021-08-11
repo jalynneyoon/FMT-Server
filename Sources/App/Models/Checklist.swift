@@ -14,23 +14,23 @@ final class Checklist: Model, Content {
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "checktlist_name")
-    var checktlist_name: String
+    @Field(key: "checklist_name")
+    var checklist_name: String
     
 
     @Field(key: "is_checked")
     var is_checked: Bool
     
-    @Field(key: "habit_id")
-    var habit_id: UUID
+    @Parent(key: "habit_id")
+    var checkHabits: Habit
     
     init() { }
 
     init(id: UUID? = nil, checktlist_name: String, is_checked : Bool, habit_id: UUID) {
         self.id = id
-        self.checktlist_name = checktlist_name
+        self.checklist_name = checklist_name
         self.is_checked = is_checked
-        self.habit_id = habit_id
+        self.$checkHabits.id = habit_id
         
     }
 }
