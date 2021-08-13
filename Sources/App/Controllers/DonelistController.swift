@@ -17,8 +17,8 @@ struct DonelistController: RouteCollection {
         
         // habit_id에 따라
         donelists.group(":habit_id") { donelist in
-//            donelist.delete(use: deleteHandler)
-//            donelist.get(use: getHabitChecklistsHandler)
+            donelist.delete(use: deleteHabitHandler)
+            donelist.get(use: getHabitHandler)
 //            donelist.post(use: createNewHabit)
         }
     }
@@ -28,10 +28,17 @@ struct DonelistController: RouteCollection {
         return Donelist.query(on: req.db).all()
     }
     
-//    func getHabitChecklistsHandler(req: Request) throws -> EventLoopFuture<[Checklist]> {
-//        return Checklist.query(on: req.db)
-//            .all()
-//    }
+    func getHabitHandler(req: Request) throws -> EventLoopFuture<[Donelist]> {
+        guard let id = req.parameters.get("habit_id"),
+              let uuid = UUID(id)
+        else {
+            throw Abort(.internalServerError)
+        }
+        
+        return Donelist.query(on: req.db)
+            .filter(\.$doneHabits.$id == uuid)
+            .all()
+    }
 
     func createHandler(req: Request) throws -> EventLoopFuture<Donelist> {
         let donelists = try req.content.decode(Donelist.self)
@@ -40,7 +47,7 @@ struct DonelistController: RouteCollection {
     
     
 
-    func deleteHandler(req: Request) throws -> EventLoopFuture<HTTPStatus> {
+    func deleteHabitHandler(req: Request) throws -> EventLoopFuture<HTTPStatus> {
         return Donelist.find(req.parameters.get("habit_id"), on: req.db)
             .unwrap(or: Abort(.notFound))
             .flatMap { $0.delete(on: req.db) }

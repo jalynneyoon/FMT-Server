@@ -14,8 +14,8 @@ final class Donelist: Model, Content {
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "done_date")
-    var done_date: Date
+    @Timestamp(key: "done_date", on: .create)
+    var done_date: Date?
     
     @Field(key: "short_description")
     var short_description: String

@@ -10,7 +10,7 @@ struct UserController: RouteCollection {
         users.group(":id") { user in
             user.delete(use: delete)
             user.get(use: getUserHabitsHandler)
-//            user.put(use: update)
+            user.group("login") { $0.patch(use: updateLoginHandler)}
         }
     }
     
@@ -53,14 +53,19 @@ struct UserController: RouteCollection {
     }
     
     
-//    func update(req: Request) throws -> String {
-//        guard let id = req.parameters.get("id") else {
-//            throw Abort(.internalServerError)
-//        }
-//        //
-//
-//        return id
-//
-//    }
-
+    func updateLoginHandler(req: Request) throws -> EventLoopFuture<HTTPStatus>{
+        return User.find(req.parameters.get("id"), on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap
+            { user in
+                let bool = user.login
+                user.login = !bool
+                
+                // Save the user and return it.
+                return user.save(on: req.db)
+                    .transform(to: .ok)
+            }
+        
+    }
+    
 }

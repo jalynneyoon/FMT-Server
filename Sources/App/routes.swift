@@ -10,6 +10,7 @@ func routes(_ app: Application) throws {
     try app.register(collection: UserController())
     try app.register(collection: HabitController())
     try app.register(collection: ChecklistController())
+    try app.register(collection: DonelistController())
 
 
 }

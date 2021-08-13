@@ -21,6 +21,10 @@ struct ChecklistController: RouteCollection {
             checklist.get(use: getHabitChecklistsHandler)
 //            checklist.post(use: createNewHabit)
         }
+        
+        checklists.group(":id") { checklist in
+            checklist.delete(use: deleteChecklistHandler)
+        }
     }
     
    
@@ -45,7 +49,12 @@ struct ChecklistController: RouteCollection {
         return checklists.save(on: req.db).map { checklists }
     }
     
-    
+    func deleteChecklistHandler(req: Request) throws -> EventLoopFuture<HTTPStatus> {
+        return Checklist.find(req.parameters.get("id"), on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { $0.delete(on: req.db) }
+            .transform(to: .ok)
+    }
 
     func deleteHandler(req: Request) throws -> EventLoopFuture<HTTPStatus> {
         return Checklist.find(req.parameters.get("habit_id"), on: req.db)
